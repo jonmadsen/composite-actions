@@ -23,8 +23,8 @@ runs:
       # reference like `jonmadsen/composite-actions/gradleEnv@<Version Variable>
       uses: jonmadsen/composite-actions/gradleEnv@master
       with:
-        java-version: ${{ inputs.javaVersion }}
-        distribution: ${{ inputs.javaDistribution }}
+        javaVersion ${{ inputs.javaVersion }}
+        javaDistribution: ${{ inputs.javaDistribution }}
     - name: Build
       uses: gradle/gradle-build-action@v2
       with:
