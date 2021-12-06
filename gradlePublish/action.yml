@@ -1,0 +1,33 @@
+name: 'Gradle Publish'
+description: 'Provides action to run a gradle publish'
+inputs:
+  javaVersion:
+    description: 'Version of java'
+    required: false
+    default: '17'
+  javaDistribution:
+    description: 'Java distribution to use'
+    required: false
+    default: 'adopt'
+  gitHubActor:
+    description: 'GitHub Actor'
+    required: true
+  gitHubToken:
+    description: 'GitHub Token'
+    required: true
+runs:
+  using: "composite"
+  steps:
+    - name: Gradle Build Env
+      #     uses: jonmadsen/composite-actions/gradleEnv@v1
+      uses: ../gradleEnv
+      with:
+        java-version: ${{ inputs.javaVersion }}
+        distribution: ${{ inputs.javaDistribution }}
+    - name: Build
+      uses: gradle/gradle-build-action@v2
+      with:
+        arguments: |
+          publish
+          -Pgithub_actor=${{ inputs.gitHubActor }}
+          -Pgithub_token=${{ inputs.gitHubToken }}
