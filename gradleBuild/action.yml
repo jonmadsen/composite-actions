@@ -14,7 +14,7 @@ runs:
   steps:
     - name: Gradle Build Env
       #     uses: jonmadsen/composite-actions/gradleEnv@v1
-      uses: ${{github.action_path}}/../gradleEnv
+      uses: /gradleEnv
       with:
         java-version: ${{ inputs.javaVersion }}
         distribution: ${{ inputs.javaDistribution }}
