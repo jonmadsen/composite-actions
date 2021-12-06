@@ -13,9 +13,15 @@ runs:
   using: "composite"
   steps:
     - name: Gradle Build Env
-      #     uses: jonmadsen/composite-actions/gradleEnv@v1
+      # TODO:  This is no good, this means that if say we had a action package published of
+      # version 1.0.5, that this would always refer to the actions of master, and master could
+      # be at a later version say 2.0.0, so eessentially this use is not guaranteed to reference
+      # an action in the same release that it is published in unless the published release being
+      # used is always the latest.
+      # Ideally we would just reference the local action, and when the release was packaged
+      # it would always reference that, or we somehow tie the release version into this
+      # reference like `jonmadsen/composite-actions/gradleEnv@<Version Variable>
       uses: jonmadsen/composite-actions/gradleEnv@master
-      #uses: /gradleEnv
       with:
         java-version: ${{ inputs.javaVersion }}
         distribution: ${{ inputs.javaDistribution }}
