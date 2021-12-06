@@ -12,6 +12,7 @@ inputs:
 runs:
   using: "composite"
   steps:
+    - uses: actions/checkout@v1
     - name: Gradle Build Env
       # TODO:  This is no good, this means that if say we had a action package published of
       # version 1.0.5, that this would always refer to the actions of master, and master could
@@ -21,7 +22,8 @@ runs:
       # Ideally we would just reference the local action, and when the release was packaged
       # it would always reference that, or we somehow tie the release version into this
       # reference like `jonmadsen/composite-actions/gradleEnv@<Version Variable>
-      uses: jonmadsen/composite-actions/gradleEnv@master
+      # uses: jonmadsen/composite-actions/gradleEnv@master
+      uses: ./gradleEnv
       with:
         javaVersion: ${{ inputs.javaVersion }}
         javaDistribution: ${{ inputs.javaDistribution }}
