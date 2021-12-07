@@ -1,0 +1,25 @@
+name: 'Gradle Build Values'
+description: 'Extracts gradle build values'
+outputs:
+  branch:
+    description: "Current branch name"
+    value: ${{ steps.extract_branch.outputs.branch }}
+  version:
+    description: "Version of package"
+    value: ${{ steps.get_version.outputs.version }}
+
+runs:
+  using: "composite"
+  steps:
+    - uses: actions/checkout@v2
+    - name: Extract branch name
+      shell: bash
+      run: echo "##[set-output name=branch;]$(echo ${GITHUB_REF#refs/heads/})"
+      id: extract_branch
+    - uses: thecodemonkey/action-get-gradle-version@master
+      with:
+        file: build.gradle.kts
+      id: get_version
+    - name: Dump Version
+      shell: bash
+      run: echo ${{ steps.get_version.outputs.version }}
