@@ -1,5 +1,11 @@
 name: 'Gradle Build Values'
 description: 'Extracts gradle build values'
+inputs:
+  validateVersion:
+    type: boolean
+    description: 'Validate version'
+    required: false
+    default: false
 outputs:
   branch:
     description: "Current branch name"
@@ -16,10 +22,15 @@ runs:
       shell: bash
       run: echo "##[set-output name=branch;]$(echo ${GITHUB_REF#refs/heads/})"
       id: extract_branch
-    - uses: thecodemonkey/action-get-gradle-version@master
+    - name: Extract gradle version
+      uses: thecodemonkey/action-get-gradle-version@master
       with:
         file: build.gradle.kts
       id: get_version
+    - name: Validate Version
+      uses: rubenesp87/semver-validation-action@0.0.6
+      with:
+        version: ${{ steps.get_version.outputs.version }}
     - name: Dump Version
       shell: bash
       run: echo ${{ steps.get_version.outputs.version }}
