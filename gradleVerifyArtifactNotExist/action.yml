@@ -24,6 +24,10 @@ runs:
       # it would always reference that, or we somehow tie the release version into this
       # reference like `jonmadsen/composite-actions/gradleEnv@<Version Variable>
       uses: jonmadsen/composite-actions/gradleEnv@master
+    - name: Validate Version
+      uses: rubenesp87/semver-validation-action@0.0.6
+      with:
+        version: ${{ inputs.version }}
     - name: Verify Artifact Not Exist
       uses: gradle/gradle-build-action@v2
       with:

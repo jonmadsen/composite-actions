@@ -31,7 +31,11 @@ runs:
       with:
         javaVersion: ${{ inputs.javaVersion }}
         javaDistribution: ${{ inputs.javaDistribution }}
-    - name: Build
+    - name: Validate Version
+      uses: rubenesp87/semver-validation-action@0.0.6
+      with:
+        version: ${{ inputs.version }}
+    - name: Publish
       uses: gradle/gradle-build-action@v2
       with:
         arguments: |
