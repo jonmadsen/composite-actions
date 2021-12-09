@@ -28,6 +28,7 @@ runs:
         file: build.gradle.kts
       id: get_version
     - name: Validate Version
+      if: ${{ inputs.validateVersion }}
       uses: rubenesp87/semver-validation-action@0.0.6
       with:
         version: ${{ steps.get_version.outputs.version }}
