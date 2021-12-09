@@ -31,7 +31,8 @@ runs:
       shell: bash
       run: echo ${{ inputs.validateVersion }}
     - name: Validate Version
-      if: ${{ inputs.validateVersion }}
+      #      if: ${{ inputs.validateVersion }}
+      if: ${{ false }}
       uses: rubenesp87/semver-validation-action@0.0.6
       with:
         version: ${{ steps.get_version.outputs.version }}
