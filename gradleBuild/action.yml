@@ -1,6 +1,14 @@
 name: 'Gradle Build'
 description: 'Provides action to run a gradle build'
 inputs:
+  artifactoryUsername:
+    description: 'Artifactory Username'
+    required: true
+    default: ${{ secrect.ARTIFACTORY_USERNAME }}
+  artifactoryPassword:
+    description: 'Artifactory Password'
+    required: true
+    default: ${{ secrect.ARTIFACTORY_PASSWORD }}
   javaVersion:
     description: 'Version of java'
     required: false
