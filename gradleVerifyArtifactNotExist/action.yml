@@ -4,11 +4,11 @@ inputs:
   artifactoryUsername:
     description: 'Artifactory Username'
     required: true
-    default: ${{ secret.ARTIFACTORY_USERNAME }}
+    default: ${{ secrets.ARTIFACTORY_USERNAME }}
   artifactoryPassword:
     description: 'Artifactory Password'
     required: true
-    default: ${{ secret.ARTIFACTORY_PASSWORD }}
+    default: ${{ secrets.ARTIFACTORY_PASSWORD }}
   version:
     description: 'Artifact Version to Check for'
     required: true
