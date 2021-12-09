@@ -12,11 +12,9 @@ inputs:
   artifactoryUsername:
     description: 'Artifactory Username'
     required: true
-    default: ${{ secrets.ARTIFACTORY_USERNAME }}
   artifactoryPassword:
     description: 'Artifactory Password'
     required: true
-    default: ${{ secrets.ARTIFACTORY_PASSWORD }}
 runs:
   using: "composite"
   steps:
