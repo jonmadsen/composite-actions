@@ -33,7 +33,7 @@ runs:
     - name: Validate Version
       # TODO: Ok, ideally this should just be if: ${{ inputs.validateVersion }} but
       # booleans don't seem to be validated properly like this
-      if: ${{ inputs.validateVersion == true}}
+      if: ${{ inputs.validateVersion == 'true'}}
       uses: rubenesp87/semver-validation-action@0.0.6
       with:
         version: ${{ steps.get_version.outputs.version }}
