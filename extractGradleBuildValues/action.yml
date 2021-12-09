@@ -5,7 +5,7 @@ inputs:
     type: boolean
     description: 'Validate version'
     required: false
-    default: 'false'
+    default: ${{ false }}
 outputs:
   branch:
     description: "Current branch name"
