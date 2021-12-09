@@ -36,3 +36,5 @@ runs:
       with:
         arguments: |
           build
+          -Partifactory_user=${{ inputs.artifactoryUsername }}
+          -Partifactory_password=${{ inputs.artifactoryPassword }}
