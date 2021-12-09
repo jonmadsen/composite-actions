@@ -1,5 +1,5 @@
-name: 'Gradle Publish'
-description: 'Provides action to run a gradle publish'
+name: 'Gradle Artifactory Publish'
+description: 'Provides action to run a gradle publish to artifactory'
 inputs:
   javaVersion:
     description: 'Version of java'
@@ -9,12 +9,14 @@ inputs:
     description: 'Java distribution to use'
     required: false
     default: 'adopt'
-  gitHubActor:
-    description: 'GitHub Actor'
+  artifactoryUsername:
+    description: 'Artifactory Username'
     required: true
-  gitHubToken:
-    description: 'GitHub Token'
+    default: ${{ secrect.ARTIFACTORY_USERNAME }}
+  artifactoryPassword:
+    description: 'Artifactory Password'
     required: true
+    default: ${{ secrect.ARTIFACTORY_PASSWORD }}
 runs:
   using: "composite"
   steps:
@@ -35,6 +37,6 @@ runs:
       uses: gradle/gradle-build-action@v2
       with:
         arguments: |
-          publish
-          -Pgithub_actor=${{ inputs.gitHubActor }}
-          -Pgithub_token=${{ inputs.gitHubToken }}
+          artifactoryPublish
+          -Partifactory_user=${{ inputs.artifactoryUsername }}
+          -Partifactory_password=${{ inputs.artifactoryPassword }}
