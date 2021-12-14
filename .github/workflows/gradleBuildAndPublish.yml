@@ -54,9 +54,11 @@ jobs:
   verifyArtifactNotExist:
     needs: [setup, build]
     runs-on: ubuntu-latest
-    if: ${{ !endsWith(needs.setup.outputs.version, '-snapshot') }}
     steps:
       - name: Gradle Verify Artifact Does Not Exist
+        # We always want to run this job even if we don't execute this step so that we can
+        # simplify the conditional job logic for subsequent steps
+        if: ${{ !endsWith(needs.setup.outputs.version, '-snapshot') }}
         uses: jonmadsen/composite-actions/gradleVerifyArtifactNotExist@master
         with:
           version: ${{ needs.setup.outputs.version }}
@@ -69,9 +71,8 @@ jobs:
   publish:
     needs: [setup, build, verifyArtifactNotExist]
     runs-on: ubuntu-latest
-    if: |
-      ${{ (always() && contains(needs.build.result, 'success')) &&
-      ((needs.setup.outputs.branch == 'master') || endsWith(needs.setup.outputs.version, '-snapshot')) }}
+    if:
+      ${{ (needs.setup.outputs.branch == 'master') || endsWith(needs.setup.outputs.version, '-snapshot') }}
     steps:
       - name: Gradle Publish
         uses: jonmadsen/composite-actions/gradleArtifactoryPublish@master
