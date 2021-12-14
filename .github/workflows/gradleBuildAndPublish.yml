@@ -31,10 +31,6 @@ jobs:
     needs: setup
     runs-on: ubuntu-latest
     steps:
-      # TODO: Remove this debug step
-      - name: Dump Version
-        shell: bash
-        run: echo ${{ needs.setup.outputs.version }}
       - name: Gradle Build
         # TODO:  This is no good, this means that if say we had a action package published of
         # version 1.0.5, that this would always refer to the actions of master, and master could
@@ -54,7 +50,7 @@ jobs:
   verifyArtifactNotExist:
     needs: [setup, build]
     runs-on: ubuntu-latest
-    if: ${{ (needs.setup.outputs.branch == 'master') && !endsWith(needs.setup.outputs.version, '-snapshot') }}
+    if: ${{ !endsWith(needs.setup.outputs.version, '-snapshot') }}
     steps:
       - name: Gradle Verify Artifact Does Not Exist
         uses: jonmadsen/composite-actions/gradleVerifyArtifactNotExist@master
@@ -73,7 +69,7 @@ jobs:
     if: ${{ (needs.setup.outputs.branch == 'master') || endsWith(needs.setup.outputs.version, '-snapshot') }}
     steps:
       - name: Gradle Publish
-        uses: jonmadsen/composite-actions/gradlePublish@master
+        uses: jonmadsen/composite-actions/gradleArtifactoryPublish@master
         with:
           javaVersion: ${{ inputs.javaVersion }}
           javaDistribution: ${{ inputs.javaDistribution }}
