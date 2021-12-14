@@ -9,6 +9,9 @@ inputs:
     description: 'Java distribution to use'
     required: false
     default: 'adopt'
+  version:
+    description: 'Version of artifact to publish'
+    required: true
   artifactoryUsername:
     description: 'Artifactory Username'
     required: true
@@ -39,6 +42,5 @@ runs:
       uses: gradle/gradle-build-action@v2
       with:
         arguments: |
-          artifactoryPublish
           -Partifactory_user=${{ inputs.artifactoryUsername }}
           -Partifactory_password=${{ inputs.artifactoryPassword }}
