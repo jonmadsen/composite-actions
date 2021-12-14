@@ -69,8 +69,9 @@ jobs:
   publish:
     needs: [setup, build, verifyArtifactNotExist]
     runs-on: ubuntu-latest
-    if: ${{ (always() && contains(needs.build.result, 'success')) &&
-    ((needs.setup.outputs.branch == 'master') || endsWith(needs.setup.outputs.version, '-snapshot')) }}
+    if: |
+      ${{ (always() && contains(needs.build.result, 'success')) &&
+      ((needs.setup.outputs.branch == 'master') || endsWith(needs.setup.outputs.version, '-snapshot')) }}
     steps:
       - name: Gradle Publish
         uses: jonmadsen/composite-actions/gradleArtifactoryPublish@master
