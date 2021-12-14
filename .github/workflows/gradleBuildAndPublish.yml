@@ -17,9 +17,12 @@ defaults:
     shell: bash
 jobs:
   setup:
+    outputs:
+      version: ${{ steps.gradle_build_values.outputs.version }}
     runs-on: ubuntu-latest
     steps:
       - name: Gradle Build Values
+        id: gradle_build_values
         uses: jonmadsen/composite-actions/extractGradleBuildValues@master
         with:
           validateVersion: true
@@ -51,7 +54,7 @@ jobs:
   verifyArtifactNotExist:
     needs: [setup, build]
     runs-on: ubuntu-latest
-    if: ${{ (needs.setup.outputs.branch == 'master') && (endsWith(needs.setup.outputs.version, '-snapshot') == false) }}
+    if: ${{ (needs.setup.outputs.branch == 'master') && !endsWith(needs.setup.outputs.version, '-snapshot' }}
     steps:
       - name: Gradle Verify Artifact Does Not Exist
         uses: jonmadsen/composite-actions/gradleVerifyArtifactNotExist@master
@@ -67,8 +70,7 @@ jobs:
     #    needs: [setup, build, verifyArtifactNotExist]
     needs: [setup, build]
     runs-on: ubuntu-latest
-#    if: ${{ (needs.setup.outputs.branch == 'master') || endsWith(needs.setup.outputs.version, '-snapshot') }}
-    if: ${{ endsWith(needs.setup.outputs.version, '-snapshot') == true }}
+    if: ${{ (needs.setup.outputs.branch == 'master') || endsWith(needs.setup.outputs.version, '-snapshot') }}
     steps:
       - name: Gradle Publish
         uses: jonmadsen/composite-actions/gradlePublish@master
