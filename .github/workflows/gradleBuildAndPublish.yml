@@ -1,0 +1,66 @@
+name: CI Gradle Build and Publish
+on:
+  workflow_call:
+    inputs:
+      javaVersion:
+        type: string
+        description: 'Version of java'
+        required: false
+        default: '17'
+      javaDistribution:
+        type: string
+        description: 'Java distribution to use'
+        required: false
+        default: 'adopt'
+defaults:
+  run:
+    shell: bash
+jobs:
+  setup:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Gradle Build Values
+        uses: jonmadsen/composite-actions/extractGradleBuildValues@v1.0.27
+        with:
+          validateVersion: true
+
+  build:
+    needs: setup
+    runs-on: ubuntu-latest
+    steps:
+      - name: Gradle Build
+        uses: jonmadsen/composite-actions/gradleBuild@v1.0.27
+        with:
+          javaVersion: ${{ inputs.javaVersion }}
+          javaDistribution: ${{ inputs.javaDistribution }}
+          artifactoryUsername: ${{ secrets.ARTIFACTORY_USERNAME }}
+          artifactoryPassword: ${{ secrets.ARTIFACTORY_PASSWORD }}
+
+  verifyArtifactNotExist:
+    needs: [setup, build]
+    runs-on: ubuntu-latest
+    if: ${{ (needs.setup.outputs.branch == 'master') && !endsWith(needs.setup.outputs.version, '-snapshot') }}
+    steps:
+      - name: Gradle Verify Artifact Does Not Exist
+        uses: jonmadsen/composite-actions/gradleVerifyArtifactNotExist@v1.0.27
+        with:
+          version: ${{ needs.setup.outputs.version }}
+          artifactoryUsername: ${{ secrets.ARTIFACTORY_USERNAME }}
+          artifactoryPassword: ${{ secrets.ARTIFACTORY_PASSWORD }}
+
+  # Try separate job to publish, now it would be nice to use the build data from the build job.
+  # We don't really need to separate this from the above build, but trying this.  Feeling like overkill so we could just roll the
+  # publishing step into the build job with the 'if' conditional
+  publish:
+    #    needs: [setup, build, verifyArtifactNotExist]
+    needs: [setup, build]
+    runs-on: ubuntu-latest
+    if: ${{ (needs.setup.outputs.branch == 'master') || endsWith(needs.setup.outputs.version, '-snapshot') }}
+    steps:
+      - name: Gradle Publish
+        uses: jonmadsen/composite-actions/gradlePublish@v1.0.27
+        with:
+          javaVersion: ${{ inputs.javaVersion }}
+          javaDistribution: ${{ inputs.javaDistribution }}
+          artifactoryUsername: ${{ secrets.ARTIFACTORY_USERNAME }}
+          artifactoryPassword: ${{ secrets.ARTIFACTORY_PASSWORD }}
