@@ -47,7 +47,7 @@ jobs:
   verifyArtifactNotExist:
     needs: [setup, build]
     runs-on: ubuntu-latest
-    if: ${{ (needs.setup.outputs.branch == 'master') && !endsWith(needs.setup.outputs.version, '-snapshot') }}
+    if: ${{ (needs.setup.outputs.branch == 'master') && (endsWith(needs.setup.outputs.version, '-snapshot') == false) }}
     steps:
       - name: Gradle Verify Artifact Does Not Exist
         uses: jonmadsen/composite-actions/gradleVerifyArtifactNotExist@master
@@ -64,7 +64,7 @@ jobs:
     needs: [setup, build]
     runs-on: ubuntu-latest
 #    if: ${{ (needs.setup.outputs.branch == 'master') || endsWith(needs.setup.outputs.version, '-snapshot') }}
-    if: ${{ endsWith(needs.setup.outputs.version, '-snapshot') }}
+    if: ${{ endsWith(needs.setup.outputs.version, '-snapshot') == true }}
     steps:
       - name: Gradle Publish
         uses: jonmadsen/composite-actions/gradlePublish@master
