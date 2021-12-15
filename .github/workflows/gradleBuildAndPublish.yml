@@ -21,15 +21,6 @@ defaults:
   run:
     shell: bash
 jobs:
-  # TODO: Remove this debug step
-  dumpTestSecret:
-    runs-on: ubuntu-latest
-    steps:
-      # TODO: Remove this debug step
-      - name: Dump Secret
-        shell: bash
-        run: echo ${{ secrets.ARTIFACTORY_USERNAME }}
-
   setup:
     outputs:
       version: ${{ steps.gradle_build_values.outputs.version }}
@@ -45,10 +36,6 @@ jobs:
     needs: setup
     runs-on: ubuntu-latest
     steps:
-      # TODO: Remove this debug step
-      - name: Dump User
-        shell: bash
-        run: echo ${{ secrets.ARTIFACTORY_USERNAME }}
       - name: Gradle Verify Artifact Does Not Exist
         # We always want to run this job even if we don't execute this step so that we can
         # simplify the conditional job logic for subsequent steps

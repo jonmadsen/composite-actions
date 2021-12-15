@@ -30,7 +30,7 @@ runs:
         version: ${{ inputs.version }}
 #    - uses: jfrog/setup-jfrog-cli@v1
     # TODO: Remove this debug step
-    - name: Dump User
+    - name: Dump User In Action
       shell: bash
       run: echo ${{ inputs.artifactoryUsername }}
     - name: Verify Artifact Not Exist
