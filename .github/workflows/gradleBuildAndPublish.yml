@@ -31,6 +31,7 @@ jobs:
     needs: setup
     runs-on: ubuntu-latest
     steps:
+      # TODO: Remove this debug step
       - name: Dump User
         shell: bash
         run: echo ${{ secrets.ARTIFACTORY_USERNAME }}
