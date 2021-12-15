@@ -33,9 +33,7 @@ jobs:
     steps:
       - name: Dump User
         shell: bash
-        run: |
-        echo 'Artifactory user name:'
-        echo ${{ secrets.ARTIFACTORY_USERNAME }}
+        run: echo ${{ secrets.ARTIFACTORY_USERNAME }}
       - name: Gradle Verify Artifact Does Not Exist
         # We always want to run this job even if we don't execute this step so that we can
         # simplify the conditional job logic for subsequent steps
