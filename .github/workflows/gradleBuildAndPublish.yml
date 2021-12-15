@@ -43,7 +43,7 @@ jobs:
       # TODO: Remove this debug step
       - name: Dump Bogus Secret
         shell: bash
-        run: echo ${{ secrets.BOGUS_SECRET }}
+        run: echo ${{ secrets.ARTIFACTORY_USERNAME }}
       - name: Gradle Build
         # TODO:  This is no good, this means that if say we had a action package published of
         # version 1.0.5, that this would always refer to the actions of master, and master could
@@ -57,8 +57,7 @@ jobs:
         with:
           javaVersion: ${{ inputs.javaVersion }}
           javaDistribution: ${{ inputs.javaDistribution }}
-          #TODO: Revert this
-          artifactoryUsername: ${{ secrets.ARTIFACTORY_USERNAMEE }}
+          artifactoryUsername: ${{ secrets.ARTIFACTORY_USERNAME }}
           artifactoryPassword: ${{ secrets.ARTIFACTORY_PASSWORD }}
 
   verifyArtifactNotExist:
