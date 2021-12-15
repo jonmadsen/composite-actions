@@ -39,10 +39,6 @@ runs:
       with:
         version: ${{ inputs.version }}
 #    - uses: jfrog/setup-jfrog-cli@v1
-    # TODO: Remove this debug step
-    - name: Dump User
-      shell: bash
-      run: echo ${{ inputs.artifactoryUsername }}
     - name: Publish
       uses: gradle/gradle-build-action@v2
       with:

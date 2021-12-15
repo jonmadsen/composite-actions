@@ -27,6 +27,20 @@ jobs:
         with:
           validateVersion: true
 
+  verifyArtifactNotExist:
+    needs: setup
+    runs-on: ubuntu-latest
+    steps:
+      - name: Gradle Verify Artifact Does Not Exist
+        # We always want to run this job even if we don't execute this step so that we can
+        # simplify the conditional job logic for subsequent steps
+        if: ${{ !endsWith(needs.setup.outputs.version, '-snapshot') }}
+        uses: jonmadsen/composite-actions/gradleVerifyArtifactNotExist@master
+        with:
+          version: ${{ needs.setup.outputs.version }}
+          artifactoryUsername: ${{ secrets.ARTIFACTORY_USERNAME }}
+          artifactoryPassword: ${{ secrets.ARTIFACTORY_PASSWORD }}
+
   build:
     needs: setup
     runs-on: ubuntu-latest
@@ -48,20 +62,6 @@ jobs:
         with:
           javaVersion: ${{ inputs.javaVersion }}
           javaDistribution: ${{ inputs.javaDistribution }}
-          artifactoryUsername: ${{ secrets.ARTIFACTORY_USERNAME }}
-          artifactoryPassword: ${{ secrets.ARTIFACTORY_PASSWORD }}
-
-  verifyArtifactNotExist:
-    needs: [setup, build]
-    runs-on: ubuntu-latest
-    steps:
-      - name: Gradle Verify Artifact Does Not Exist
-        # We always want to run this job even if we don't execute this step so that we can
-        # simplify the conditional job logic for subsequent steps
-        if: ${{ !endsWith(needs.setup.outputs.version, '-snapshot') }}
-        uses: jonmadsen/composite-actions/gradleVerifyArtifactNotExist@master
-        with:
-          version: ${{ needs.setup.outputs.version }}
           artifactoryUsername: ${{ secrets.ARTIFACTORY_USERNAME }}
           artifactoryPassword: ${{ secrets.ARTIFACTORY_PASSWORD }}
 
