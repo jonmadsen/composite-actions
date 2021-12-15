@@ -32,7 +32,9 @@ runs:
     # TODO: Remove this debug step
     - name: Dump User
       shell: bash
-      run: echo ${{ inputs.artifactoryUsername }}
+      run: |
+      echo 'Artifactory user name:'
+      echo ${{ inputs.artifactoryUsername }}
     - name: Verify Artifact Not Exist
       uses: gradle/gradle-build-action@v2
       with:
