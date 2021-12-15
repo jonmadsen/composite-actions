@@ -28,6 +28,7 @@ runs:
       uses: rubenesp87/semver-validation-action@0.0.6
       with:
         version: ${{ inputs.version }}
+    - uses: jfrog/setup-jfrog-cli@v1
     - name: Verify Artifact Not Exist
       uses: gradle/gradle-build-action@v2
       with:
