@@ -12,6 +12,11 @@ on:
         description: 'Java distribution to use'
         required: false
         default: 'adopt'
+    secrets:
+      ARTIFACTORY_USERNAME:
+        required: true
+      ARTIFACTORY_PASSWORD:
+        required: true
 defaults:
   run:
     shell: bash
@@ -23,7 +28,7 @@ jobs:
       # TODO: Remove this debug step
       - name: Dump Secret
         shell: bash
-        run: echo ${{ secrets.TEST_SECRET }}
+        run: echo ${{ secrets.ARTIFACTORY_USERNAME }}
 
   setup:
     outputs:
