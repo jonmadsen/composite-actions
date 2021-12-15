@@ -57,7 +57,8 @@ jobs:
         with:
           javaVersion: ${{ inputs.javaVersion }}
           javaDistribution: ${{ inputs.javaDistribution }}
-          artifactoryUsername: ${{ secrets.ARTIFACTORY_USERNAME }}
+          #TODO: Revert this
+          artifactoryUsername: ${{ secrets.ARTIFACTORY_USERNAMEE }}
           artifactoryPassword: ${{ secrets.ARTIFACTORY_PASSWORD }}
 
   verifyArtifactNotExist:
