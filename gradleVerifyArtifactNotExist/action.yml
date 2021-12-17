@@ -28,6 +28,7 @@ runs:
       uses: rubenesp87/semver-validation-action@0.0.6
       with:
         version: ${{ inputs.version }}
+# TODO: Try getting this to work with this action instead of downloading ourselves
 #    - uses: jfrog/setup-jfrog-cli@v1
     # TODO: Remove this debug step
     - name: Dump User In Action
